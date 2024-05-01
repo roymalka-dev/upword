@@ -37,6 +37,6 @@ export default async function handler(
     res.status(200).json({ response: fullResponse });
   } catch (error) {
     console.error("OpenAI API error:", error);
-    res.status(500).json({ message: "Error processing your request" });
+    res.status(500).json({ message: "Error processing your request", error });
   }
 }
