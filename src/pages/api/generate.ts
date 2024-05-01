@@ -2,6 +2,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
+ const openai = new OpenAI({
+   apiKey: process.env.OPENAI_API_KEY,
+ });
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -15,11 +19,7 @@ export default async function handler(
   if (!text) {
     return res.status(400).json({ message: "Text parameter is required" });
   }
-
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
+    
   const pormpt = `and rephrase the following text to a ${scale} of 10 formality level : ${text}`;
 
   try {
