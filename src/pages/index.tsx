@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 import {
   Box,
   TextField,
@@ -7,11 +7,6 @@ import {
   Container,
   Button,
   CircularProgress,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  SelectChangeEvent,
 } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
@@ -22,7 +17,6 @@ const Index: React.FC = () => {
   const [scale, setScale] = useState<number>(5);
   const [result, setResult] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [language, setLanguage] = useState<string>("English");
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
@@ -32,19 +26,12 @@ const Index: React.FC = () => {
     setScale(newValue as number);
   };
 
-  const handleLanguageChange = (
-    event: SelectChangeEvent<string> // Update the type here to SelectChangeEvent<string>
-  ) => {
-    setLanguage(event.target.value);
-  };
-
   const handleGenerate = async () => {
     setLoading(true);
     try {
       const response = await axios.post("/api/generate", {
         text: text,
         scale: scale,
-        language: language,
       });
       setResult(response.data.response);
     } catch (error) {
@@ -98,23 +85,7 @@ const Index: React.FC = () => {
           max={10}
           valueLabelDisplay="auto"
         />
-        <FormControl fullWidth>
-          <InputLabel id="language-label">Language</InputLabel>
-          <Select
-            labelId="language-label"
-            id="language-select"
-            value={language}
-            label="Language"
-            onChange={handleLanguageChange}
-          >
-            <MenuItem value="English">English</MenuItem>
-            <MenuItem value="Hebrew">Hebrew</MenuItem>
-            <MenuItem value="Spanish">Spanish</MenuItem>
-            <MenuItem value="Arabic">Arabic</MenuItem>
-            <MenuItem value="German">German</MenuItem>
-            <MenuItem value="French">French</MenuItem>
-          </Select>
-        </FormControl>
+
         <Button
           variant="contained"
           color="primary"

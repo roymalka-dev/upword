@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   // Extracting text from request body
-  const { text, scale, lang } = req.body;
+  const { text, scale } = req.body;
   if (!text) {
     return res.status(400).json({ message: "Text parameter is required" });
   }
@@ -20,7 +20,7 @@ export default async function handler(
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  const pormpt = `rephrase the following text to a ${scale} of 10 formality level: ${text} and i ${lang} language.`;
+  const pormpt = `and rephrase the following text to a ${scale} of 10 formality level : ${text}`;
 
   try {
     const stream = await openai.chat.completions.create({
