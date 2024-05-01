@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
 
 const Index: React.FC = () => {
@@ -24,6 +25,12 @@ const Index: React.FC = () => {
 
   const handleScaleChange = (_event: Event, newValue: number | number[]) => {
     setScale(newValue as number);
+  };
+
+  const handleReset = () => {
+    setText("");
+    setScale(5);
+    setResult("");
   };
 
   const handleGenerate = async () => {
@@ -86,21 +93,34 @@ const Index: React.FC = () => {
           valueLabelDisplay="auto"
         />
 
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={
-            loading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              <AutoFixHighIcon />
-            )
-          }
-          onClick={handleGenerate}
-          disabled={loading}
-        >
-          Generate
-        </Button>
+        <Box display={"flex"} gap={3}>
+          <Button
+            variant="outlined"
+            color="primary" // Use a different color for contrast
+            startIcon={<RefreshIcon />} // Icon indicating a reset action
+            onClick={handleReset}
+            disabled={loading} // Disable during loading if needed
+          >
+            Reset
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={
+              loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                <AutoFixHighIcon />
+              )
+            }
+            onClick={handleGenerate}
+            disabled={loading}
+          >
+            Generate
+          </Button>
+        </Box>
+
         <TextField
           fullWidth
           label="Result"
