@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   Box,
   TextField,
@@ -7,11 +8,13 @@ import {
   Container,
   Button,
   CircularProgress,
+  Paper, // Import Paper component
 } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
+import Logo from "../assets/upword.svg";
 
 const Index: React.FC = () => {
   const [text, setText] = useState<string>("");
@@ -54,96 +57,103 @@ const Index: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        gap={2}
-        sx={{ mt: 4 }}
-      >
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <Typography variant="h3" component="h1" gutterBottom>
-            UpWord
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            A text rephrasing app based on formality scale
-          </Typography>
-        </Box>
-        <TextField
-          fullWidth
-          label="Enter your text"
-          variant="outlined"
-          value={text}
-          onChange={handleTextChange}
-          multiline
-          rows={4}
-        />
-        <Typography id="input-slider" gutterBottom>
-          Formality Scale: {scale}
-        </Typography>
-        <Slider
-          aria-labelledby="input-slider"
-          value={scale}
-          onChange={handleScaleChange}
-          step={1}
-          marks
-          min={1}
-          max={10}
-          valueLabelDisplay="auto"
-        />
-
-        <Box display={"flex"} gap={3}>
-          <Button
+      <Paper elevation={3} sx={{ width: "100%", padding: 3, bgcolor: "white" }}>
+        {" "}
+        {/* Paper with elevation and white background */}
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            sx={{ position: "relative", height: 300, width: "100%", mb: -5 }}
+          >
+            <Image
+              src={Logo}
+              alt="UpWord Logo"
+              layout="fill"
+              objectFit="contain"
+              style={{ position: "absolute" }}
+            />
+          </Box>
+          <TextField
+            fullWidth
+            label="Enter your text"
             variant="outlined"
-            color="primary" // Use a different color for contrast
-            startIcon={<RefreshIcon />} // Icon indicating a reset action
-            onClick={handleReset}
-            disabled={loading} // Disable during loading if needed
-          >
-            Reset
-          </Button>
+            value={text}
+            onChange={handleTextChange}
+            multiline
+            rows={4}
+          />
+          <Typography id="input-slider" gutterBottom>
+            Formality Scale: {scale}
+          </Typography>
+          <Slider
+            aria-labelledby="input-slider"
+            value={scale}
+            onChange={handleScaleChange}
+            step={1}
+            marks
+            min={1}
+            max={10}
+            valueLabelDisplay="auto"
+          />
 
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={
-              loading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                <AutoFixHighIcon />
-              )
-            }
-            onClick={handleGenerate}
-            disabled={loading}
-          >
-            Generate
-          </Button>
+          <Box display={"flex"} gap={3}>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<RefreshIcon />}
+              onClick={handleReset}
+              disabled={loading}
+            >
+              Reset
+            </Button>
+
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={
+                loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  <AutoFixHighIcon />
+                )
+              }
+              onClick={handleGenerate}
+              disabled={loading}
+            >
+              Generate
+            </Button>
+          </Box>
+
+          <TextField
+            fullWidth
+            label="Result"
+            variant="outlined"
+            value={result}
+            InputProps={{ readOnly: true }}
+            multiline
+            minRows={4}
+            disabled
+          />
+          {result && (
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<FileCopyIcon />}
+              onClick={handleCopyToClipboard}
+            >
+              Copy
+            </Button>
+          )}
         </Box>
-
-        <TextField
-          fullWidth
-          label="Result"
-          variant="outlined"
-          value={result}
-          InputProps={{
-            readOnly: true,
-          }}
-          multiline
-          minRows={4}
-          disabled
-        />
-        {result && (
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<FileCopyIcon />}
-            onClick={handleCopyToClipboard}
-          >
-            Copy
-          </Button>
-        )}
-      </Box>
+      </Paper>
     </Container>
   );
 };
