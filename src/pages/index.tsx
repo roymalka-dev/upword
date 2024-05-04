@@ -57,21 +57,26 @@ const Index: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ width: "100%", padding: 3, bgcolor: "white" }}>
-        {" "}
-        {/* Paper with elevation and white background */}
+      <Paper elevation={3} sx={{ width: "100%", bgcolor: "white" }}>
         <Box
           display="flex"
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
           gap={2}
+          sx={{ p: 3 }}
         >
           <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
-            sx={{ position: "relative", height: 300, width: "100%", mb: -5 }}
+            sx={{
+              position: "relative",
+              height: 300,
+              width: "100%",
+              mb: -5,
+              mt: -5,
+            }}
           >
             <Image
               src={Logo}
